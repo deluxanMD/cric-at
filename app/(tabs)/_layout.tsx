@@ -1,7 +1,8 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+import MaterialCommunity from '@expo/vector-icons/MaterialCommunityIcons';
+import { Tabs } from 'expo-router';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -12,8 +13,22 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={22} style={{ marginBottom: -3 }} {...props} />;
 }
+
+interface Tab {
+  name: string;
+  title: string;
+  icon: any;
+}
+
+const tabs: Tab[] = [
+  { name: 'home', title: 'Home', icon: 'home' },
+  { name: 'matches', title: 'Matches', icon: 'home' },
+  { name: 'series', title: 'Series', icon: 'home' },
+  { name: 'stream', title: 'Stream', icon: 'home' },
+  { name: 'more', title: 'More', icon: 'home' },
+];
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -22,36 +37,66 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: '#A4B7D2',
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: useClientOnlyValue(false, false),
+        tabBarStyle: { borderTopWidth: 0 },
+        tabBarLabelStyle: { fontSize: 12 },
       }}>
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Home',
+          tabBarIcon: ({ color }) => (
+            <Feather size={22} style={{ marginBottom: -3 }} name="home" color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="matches"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Matches',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunity
+              size={22}
+              style={{ marginBottom: -3 }}
+              name="cricket"
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="series"
+        options={{
+          title: 'Series',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunity
+              size={22}
+              style={{ marginBottom: -3 }}
+              name="tournament"
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="stream"
+        options={{
+          title: 'Stream',
+          tabBarIcon: ({ color }) => (
+            <Feather size={22} style={{ marginBottom: -3 }} name="radio" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="more"
+        options={{
+          title: 'More',
+          tabBarIcon: ({ color }) => (
+            <Feather size={22} style={{ marginBottom: -3 }} name="more-vertical" color={color} />
+          ),
         }}
       />
     </Tabs>
